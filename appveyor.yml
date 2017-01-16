@@ -4,9 +4,15 @@ image: Visual Studio 2013
 
 configuration: Release
 
-platform:
-- x86
-- x64
+#platform:
+#- x86
+#- x64
+environment:
+  matrix:
+  - platform: x86
+    outdir: Win32
+  - platform: x64
+    outdir: x64
 
 shallow_clone: true
 
@@ -25,7 +31,7 @@ build_script:
 - msbuild /t:Rebuild builds\windows\vc2010\freetype.vcxproj
 
 after_build:
-- cd objs\vc2010
+- cd objs\vc2010\%outdir%
 - dir
 
 test: off
