@@ -30,9 +30,20 @@ build_script:
 - ..\findreplace.bat "/* %pound%define FT_EXPORT(x)      extern x */" "%pound%define FT_EXPORT(x) __declspec(dllexport) x" include\freetype\config\ftoption.h
 - ..\findreplace.bat "/* %pound%define FT_EXPORT_DEF(x)  x */" "%pound%define FT_EXPORT_DEF(x) __declspec(dllexport) x" include\freetype\config\ftoption.h
 - msbuild /t:Rebuild /p:Configuration=Release builds\windows\vc2010\freetype.vcxproj
+- cd ..
 
 after_build:
-- cd objs\vc2010\%outdir%
-- dir
+- mkdir freetype-2.7.1-shared
+- cd freetype-2.7.1-shared
+- mkdir include
+- mkdir lib
+- mkdir bin
+- xcopy /e ..\freetype-2.7.1\include include
+- copy ..\freetype-2.7.1\objs\vc2010\%outdir%\freetype271.lib lib
+- copy ..\freetype-2.7.1\objs\vc2010\%outdir%\freetype271.exp lib
+- copy ..\freetype-2.7.1\objs\vc2010\%outdir%\freetype271.dll bin
+- dir include
+- dir lib
+- dir bin
 
 test: off
