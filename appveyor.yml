@@ -33,8 +33,8 @@ build_script:
 - cd ..
 
 after_build:
-- mkdir freetype-2.7.1-shared
-- cd freetype-2.7.1-shared
+- mkdir freetype-2.7.1-shared-%PLATFORM%
+- cd freetype-2.7.1-shared-%PLATFORM%
 - mkdir include
 - mkdir lib
 - mkdir bin
@@ -42,8 +42,10 @@ after_build:
 - copy ..\freetype-2.7.1\objs\vc2010\%outdir%\freetype271.lib lib
 - copy ..\freetype-2.7.1\objs\vc2010\%outdir%\freetype271.exp lib
 - copy ..\freetype-2.7.1\objs\vc2010\%outdir%\freetype271.dll bin
-- dir include
-- dir lib
-- dir bin
+- cd ..
+- 7z a -ttar freetype-2.7.1-shared-%PLATFORM%.tar freetype-2.7.1-shared-%PLATFORM%
+- 7z a -tgzip freetype-2.7.1-shared-%PLATFORM%.tar.gz freetype-2.7.1-shared-%PLATFORM%.tar
+- del freetype-2.7.1-shared-%PLATFORM%.tar
+- dir
 
 test: off
