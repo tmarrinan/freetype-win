@@ -28,7 +28,7 @@ build_script:
 - ..\findreplace.bat "v100" "v120" builds\windows\vc2010\freetype.vcxproj
 - ..\findreplace.bat "/* #define FT_EXPORT(x)      extern x */" "#define FT_EXPORT(x) __declspec(dllexport) x" include\freetype\config\ftoption.h
 - ..\findreplace.bat "/* #define FT_EXPORT_DEF(x)  x */" "#define FT_EXPORT_DEF(x) __declspec(dllexport) x" include\freetype\config\ftoption.h
-- msbuild /t:Rebuild builds\windows\vc2010\freetype.vcxproj
+- msbuild /t:Rebuild /p:Configuration=Release builds\windows\vc2010\freetype.vcxproj
 
 after_build:
 - cd objs\vc2010\%outdir%
