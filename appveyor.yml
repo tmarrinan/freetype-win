@@ -30,8 +30,6 @@ build_script:
 - ..\findreplace.bat "/* %pound%define FT_EXPORT(x)      extern x */" "%pound%define FT_EXPORT(x) __declspec(dllexport) x" include\freetype\config\ftoption.h
 - ..\findreplace.bat "/* %pound%define FT_EXPORT_DEF(x)  x */" "%pound%define FT_EXPORT_DEF(x) __declspec(dllexport) x" include\freetype\config\ftoption.h
 - msbuild /t:Rebuild /p:Configuration=Release builds\windows\vc2010\freetype.vcxproj
-- echo "/* %pound%define FT_EXPORT(x)      extern x */" "%pound%define FT_EXPORT(x) __declspec(dllexport) x"
-- echo "%pound%define"
 
 after_build:
 - cd objs\vc2010\%outdir%
