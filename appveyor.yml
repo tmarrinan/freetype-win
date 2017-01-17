@@ -53,7 +53,9 @@ deploy:
   provider: GitHub
   auth_token:
     secure: PF/wHCfSMFPCYyFh3GgjEJDHoPyPOnrmmbVMMwe8cNQBw2NL0vaYxjL1QcjMfpvL
-  artifact: freetype-2.7.1-shared-$(PLATFORM).tar.gz
+  artifacts:
+    - path: freetype-2.7.1-shared-$(PLATFORM).tar.gz
+      name: freetype-2.7.1-shared-$(PLATFORM)
   draft: false
   prerelease: false
   on:
