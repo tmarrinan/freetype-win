@@ -4,9 +4,6 @@ image: Visual Studio 2013
 
 configuration: Release
 
-#platform:
-#- x86
-#- x64
 environment:
   pound: "#"
   matrix:
@@ -49,3 +46,16 @@ after_build:
 - dir
 
 test: off
+
+deploy:
+  release: freetype-2.7.1-shared-$(PLATFORM)
+  description: 'FreeType 2.7.1 ($(PLATFORM))'
+  provider: GitHub
+  auth_token:
+    secure: PF/wHCfSMFPCYyFh3GgjEJDHoPyPOnrmmbVMMwe8cNQBw2NL0vaYxjL1QcjMfpvL
+  artifact: freetype-2.7.1-shared-$(PLATFORM).tar.gz
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
