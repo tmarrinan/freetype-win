@@ -6,8 +6,8 @@ configuration: Release
 
 environment:
   pound: "#"
-  ft_version: "2.7.1"
-  ft_version_short: "271"
+  ft_version: "2.8"
+  ft_version_short: "28"
   matrix:
   - platform: x86
     outdir: Win32
