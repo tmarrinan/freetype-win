@@ -6,6 +6,8 @@ configuration: Release
 
 environment:
   pound: "#"
+  ft_version: "2.7.1"
+  ft_version_short: "271"
   matrix:
   - platform: x86
     outdir: Win32
@@ -15,13 +17,13 @@ environment:
 shallow_clone: true
 
 before_build:
-- curl -LsSO http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.bz2
-- 7z x freetype-2.7.1.tar.bz2
-- 7z x freetype-2.7.1.tar
-- del freetype-2.7.1.tar freetype-2.7.1.tar.bz2
+- curl -LsSO http://download.savannah.gnu.org/releases/freetype/freetype-%ft_version%.tar.bz2
+- 7z x freetype-%ft_version%.tar.bz2
+- 7z x freetype-%ft_version%.tar
+- del freetype-%ft_version%.tar freetype-%ft_version%.tar.bz2
 
 build_script:
-- cd freetype-2.7.1
+- cd freetype-%ft_version%
 - ..\findreplace.bat ">StaticLibrary<" ">DynamicLibrary<" builds\windows\vc2010\freetype.vcxproj
 - ..\findreplace.bat "v100" "v120" builds\windows\vc2010\freetype.vcxproj
 - ..\findreplace.bat "/* %pound%define FT_EXPORT(x)      extern x */" "%pound%define FT_EXPORT(x) __declspec(dllexport) x" include\freetype\config\ftoption.h
@@ -30,34 +32,34 @@ build_script:
 - cd ..
 
 after_build:
-- mkdir freetype-2.7.1-shared-%PLATFORM%
-- cd freetype-2.7.1-shared-%PLATFORM%
+- mkdir freetype-%ft_version%-shared-%PLATFORM%
+- cd freetype-%ft_version%-shared-%PLATFORM%
 - mkdir include
 - mkdir lib
 - mkdir bin
-- xcopy /e ..\freetype-2.7.1\include include
-- copy ..\freetype-2.7.1\objs\vc2010\%outdir%\freetype271.lib lib
-- copy ..\freetype-2.7.1\objs\vc2010\%outdir%\freetype271.dll bin
-- copy ..\freetype-2.7.1\docs\LICENSE.TXT .
-- copy ..\freetype-2.7.1\docs\FTL.TXT .
-- copy ..\freetype-2.7.1\docs\GPLv2.TXT .
+- xcopy /e ..\freetype-%ft_version%\include include
+- copy ..\freetype-%ft_version%\objs\vc2010\%outdir%\freetype%ft_version_short%.lib lib
+- copy ..\freetype-%ft_version%\objs\vc2010\%outdir%\freetype%ft_version_short%.dll bin
+- copy ..\freetype-%ft_version%\docs\LICENSE.TXT .
+- copy ..\freetype-%ft_version%\docs\FTL.TXT .
+- copy ..\freetype-%ft_version%\docs\GPLv2.TXT .
 - cd ..
-- 7z a -tzip freetype-2.7.1-shared-%PLATFORM%.zip freetype-2.7.1-shared-%PLATFORM%
+- 7z a -tzip freetype-%ft_version%-shared-%PLATFORM%.zip freetype-%ft_version%-shared-%PLATFORM%
 - dir
 
 artifacts:
-  - path: freetype-2.7.1-shared-$(PLATFORM).zip
-    name: freetype-2.7.1-shared-$(PLATFORM)
+  - path: freetype-$(ft_version)-shared-$(PLATFORM).zip
+    name: freetype-$(ft_version)-shared-$(PLATFORM)
 
 test: off
 
 deploy:
-  release: freetype-2.7.1-shared-$(PLATFORM)
-  description: "FreeType 2.7.1 ($(PLATFORM))"
+  release: $(APPVEYOR_REPO_TAG_NAME)
+  description: "FreeType $(ft_version)"
   provider: GitHub
   auth_token:
     secure: PF/wHCfSMFPCYyFh3GgjEJDHoPyPOnrmmbVMMwe8cNQBw2NL0vaYxjL1QcjMfpvL
-  artifact: freetype-2.7.1-shared-$(PLATFORM)
+  artifact: freetype-$(ft_version)-shared-$(PLATFORM)
   draft: false
   prerelease: false
   on:
